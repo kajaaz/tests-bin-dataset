@@ -1,13 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-void vulnerableFunction(char *src) {
-    // Incorrectly calculating buffer size
-    int bufSize = strlen(src) - 1;
-    char dst[bufSize];
-    strncpy(dst, src, strlen(src));  // This line could lead to a buffer overflow
+void vulnerableFunction(char *input) {
+    int bufSize = strlen(input);  // Incorrect buffer size calculation
+    char *buffer = (char *)malloc(bufSize);  // Should be bufSize + 1 to account for the null terminator
+    strcpy(buffer, input);  // Buffer overflow here due to incorrect buffer size calculation
 
-    printf("%s\n", dst);
+    printf("%s\n", buffer);
+    free(buffer);
 }
 
 int main() {
